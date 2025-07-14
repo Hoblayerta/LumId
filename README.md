@@ -1,15 +1,15 @@
-# 🔐 Biometric DID App - Identidad Digital Soberana
+# 🔐 Biometric DID App - Sovereign Digital Identity
 
-Un prototipo de **identidad digital soberana** que utiliza biometría como factor de autenticación, construido sobre la blockchain **Stellar** usando contratos inteligentes **Soroban**.
+A **sovereign digital identity** prototype that uses biometrics as an authentication factor, built on the **Stellar** blockchain using **Soroban** smart contracts.
 
-## 🌟 Características
+## 🌟 Features
 
-- **Identidad Descentralizada (DID)**: Cada usuario posee su propia identidad digital verificable
-- **Autenticación Biométrica**: Utiliza captura de video facial para generar hashes únicos
-- **Blockchain Stellar**: Almacenamiento descentralizado e inmutable de identidades
-- **Soroban Smart Contracts**: Lógica de negocio ejecutada en la blockchain
-- **Wallet Integration**: Conexión con Freighter para gestión de claves
-- **Doble Frontend**: Aplicación Next.js y Vite para máxima flexibilidad
+- **Decentralized Identity (DID)**: Each user owns their own verifiable digital identity
+- **Biometric Authentication**: Uses facial video capture to generate unique hashes
+- **Stellar Blockchain**: Decentralized and immutable identity storage
+- **Soroban Smart Contracts**: Business logic executed on the blockchain
+- **Wallet Integration**: Connection with Freighter for key management
+- **Dual Frontend**: Next.js and Vite applications for maximum flexibility
 
 ## 🔐 Live Demo On Stellar Testnet 
 - [LumID](https://lumid-theta.vercel.app/)
@@ -64,182 +64,204 @@ graph TB
     style G fill:#e8f5e8
 ```
 
-## 🛠️ Tecnologías Utilizadas
+## 🛠️ Technologies Used
 
 ### Backend/Smart Contracts
-- **Soroban SDK 22.0.0**: Framework para contratos inteligentes en Stellar
-- **Rust**: Lenguaje de programación para contratos seguros
-- **Stellar Testnet**: Red blockchain para testing
+
+* **Soroban SDK 22.0.0**: Framework for smart contracts on Stellar
+* **Rust**: Programming language for secure contracts
+* **Stellar Testnet**: Blockchain network for testing
 
 ### Frontend
-- **React 19**: Biblioteca de interfaz de usuario
-- **Next.js 15**: Framework React con SSR (webapp)
-- **Vite 7**: Bundler moderno (frontend alternativo)
-- **TypeScript 5**: Tipado estático para JavaScript
-- **Tailwind CSS 4**: Framework CSS utility-first
+
+* **React 19**: UI library
+* **Next.js 15**: React framework with SSR (webapp)
+* **Vite 7**: Modern bundler (alternative frontend)
+* **TypeScript 5**: Static typing for JavaScript
+* **Tailwind CSS 4**: Utility-first CSS framework
 
 ### Blockchain & Web3
-- **Stellar SDK 13.3.0**: Interacción con la blockchain Stellar
-- **Freighter API 4.1.0**: Integración con wallet Freighter
-- **Stellar Wallets Kit 1.7.6**: Gestión de múltiples wallets
 
-### Biometría & Media
-- **Face-API.js 0.22.2**: Procesamiento de reconocimiento facial
-- **Navigator.mediaDevices**: API nativa para captura de video
-- **Web Crypto API**: Hashing criptográfico en el navegador
+* **Stellar SDK 13.3.0**: Interaction with the Stellar blockchain
+* **Freighter API 4.1.0**: Integration with Freighter wallet
+* **Stellar Wallets Kit 1.7.6**: Multi-wallet management
 
-### Estado & Utilidades
-- **Zustand 5.0.6**: Gestión de estado global
-- **Crypto-JS 4.2.0**: Utilidades criptográficas adicionales
+### Biometrics & Media
 
-## 🚀 Instalación
+* **Face-API.js 0.22.2**: Facial recognition processing
+* **Navigator.mediaDevices**: Native API for video capture
+* **Web Crypto API**: Cryptographic hashing in the browser
 
-### Prerrequisitos
-- Node.js 18+ instalado
-- Rust y Cargo instalados
-- Freighter wallet extension
-- Stellar CLI (opcional para desarrollo)
+### State & Utilities
 
-### 1. Clonar el repositorio
+* **Zustand 5.0.6**: Global state management
+* **Crypto-JS 4.2.0**: Additional crypto utilities
+
+## 🚀 Installation
+
+### Prerequisites
+
+* Node.js 18+ installed
+* Rust and Cargo installed
+* Freighter wallet extension
+* Stellar CLI (optional for development)
+
+### 1. Clone the repository
+
 ```bash
 git clone https://github.com/Hoblayerta/LumId.git
 cd biometric-did-app
 ```
 
-### 2. Instalar dependencias del smart contract
+### 2. Install smart contract dependencies
+
 ```bash
-# Instalar dependencias de Rust
+# Install Rust dependencies
 cargo build
 
-# Ejecutar tests del contrato
+# Run contract tests
 cd contracts/hello-world
 cargo test
 ```
 
-### 3. Instalar dependencias del frontend
+### 3. Install frontend dependencies
 
 #### Webapp (Next.js)
+
 ```bash
 cd webapp
 npm install
 ```
 
-#### Frontend alternativo (Vite)
+#### Alternative frontend (Vite)
+
 ```bash
 cd frontend
 npm install
 ```
 
-### 4. Configurar variables de entorno
+### 4. Configure environment variables
 
-Crear archivo `.env.local` en cada carpeta de frontend:
+Create a `.env.local` file in each frontend folder:
 
 ```env
 NEXT_PUBLIC_STELLAR_NETWORK=testnet
 NEXT_PUBLIC_CONTRACT_ID=CBF24N5JQKRQBV2ML4MQL4UU2CARFMOHOQ2PPRMKRRDNSH6PMXKVSE4H
 ```
 
-## 🎯 Uso
+## 🎯 Usage
 
-### 1. Iniciar la aplicación
+### 1. Start the application
 
 #### Webapp (Next.js)
+
 ```bash
 cd webapp
 npm run dev
 ```
-Abrir http://localhost:3000
 
-#### Frontend alternativo (Vite)
+Open [http://localhost:3000](http://localhost:3000)
+
+#### Alternative frontend (Vite)
+
 ```bash
 cd frontend
 npm run dev
 ```
-Abrir http://localhost:5173
 
-### 2. Conectar Wallet
-1. Instalar Freighter wallet extension
-2. Crear/importar una wallet en Testnet
-3. Hacer clic en "🚀 Conectar Freighter"
+Open [http://localhost:5173](http://localhost:5173)
 
-### 3. Crear DID con Biometría
-1. Después de conectar la wallet, hacer clic en "🎥 Iniciar Cámara"
-2. Permitir acceso a la cámara cuando se solicite
-3. Hacer clic en "📸 Capturar Biométricos"
-4. Esperar el countdown y mantener la cara visible
-5. El sistema procesará la biometría y creará el DID
+### 2. Connect Wallet
 
-### 4. Verificar DID
-- El DID se almacena en la blockchain Stellar
-- Se puede verificar el estado en la interfaz
-- El hash biométrico se mantiene privado y seguro
+1. Install Freighter wallet extension
+2. Create/import a wallet on Testnet
+3. Click on "🚀 Connect Freighter"
 
-## 📁 Estructura del Proyecto
+### 3. Create DID with Biometrics
+
+1. After connecting the wallet, click on "🎥 Start Camera"
+2. Allow camera access when prompted
+3. Click "📸 Capture Biometrics"
+4. Wait for the countdown and keep your face visible
+5. The system will process the biometrics and create the DID
+
+### 4. Verify DID
+
+* The DID is stored on the Stellar blockchain
+* You can check the status in the interface
+* The biometric hash remains private and secure
+
+## 📁 Project Structure
 
 ```
 biometric-did-app/
 ├── 📋 contracts/
 │   └── hello-world/
 │       ├── src/
-│       │   ├── lib.rs          # Smart contract principal
-│       │   └── test.rs         # Tests del contrato
+│       │   ├── lib.rs          # Main smart contract
+│       │   └── test.rs         # Contract tests
 │       └── Cargo.toml
-├── 🌐 webapp/                  # Aplicación Next.js
+├── 🌐 webapp/                  # Next.js application
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── page.tsx        # Página principal
-│   │   │   └── globals.css     # Estilos globales
+│   │   │   ├── page.tsx        # Main page
+│   │   │   └── globals.css     # Global styles
 │   │   ├── components/
-│   │   │   ├── VideoCapture.tsx    # Captura biométrica
-│   │   │   ├── WalletConnect.tsx   # Conexión wallet
+│   │   │   ├── VideoCapture.tsx    # Biometric capture
+│   │   │   ├── WalletConnect.tsx   # Wallet connection
 │   │   │   └── animated-background.tsx
 │   │   ├── contracts/
-│   │   │   └── contractHelpers.ts  # Helpers del contrato
+│   │   │   └── contractHelpers.ts  # Contract helpers
 │   │   ├── hooks/
-│   │   │   └── wallet.ts       # Hook de wallet
+│   │   │   └── wallet.ts       # Wallet hook
 │   │   ├── store/
-│   │   │   └── wallet.ts       # Estado global
+│   │   │   └── wallet.ts       # Global state
 │   │   └── types/
-│   │       └── freighter.d.ts  # Tipos TypeScript
+│   │       └── freighter.d.ts  # TypeScript types
 │   └── package.json
-├── 🎨 frontend/                # Aplicación Vite alternativa
+├── 🎨 frontend/                # Alternative Vite app
 │   ├── src/
-│   │   ├── components/         # Componentes React
-│   │   ├── contracts/          # Helpers de contrato
+│   │   ├── components/         # React components
+│   │   ├── contracts/          # Contract helpers
 │   │   ├── hooks/              # Custom hooks
-│   │   └── store/              # Estado global
+│   │   └── store/              # Global state
 │   └── package.json
-├── 📄 Cargo.toml              # Configuración workspace Rust
-└── 📖 README.md               # Este archivo
+├── 📄 Cargo.toml              # Rust workspace config
+└── 📖 README.md               # This file
 ```
 
 ## 🔧 Smart Contract - BiometricContract
 
-### Funciones Principales
+### Main Functions
 
 #### `create_did(wallet_address, biometric_hash)`
-- Crea un nuevo DID asociado a una wallet
-- Almacena el hash biométrico en la blockchain
-- Retorna confirmación de creación
+
+* Creates a new DID linked to a wallet
+* Stores the biometric hash on the blockchain
+* Returns confirmation of creation
 
 #### `verify_biometrics(wallet_address, new_biometric_hash)`
-- Verifica si el hash biométrico coincide
-- Marca el DID como verificado si hay coincidencia
-- Retorna resultado de verificación
+
+* Verifies if the biometric hash matches
+* Marks the DID as verified if matched
+* Returns verification result
 
 #### `get_did(wallet_address)`
-- Obtiene toda la información del DID
-- Incluye estado de verificación y timestamps
+
+* Retrieves full information about the DID
+* Includes verification status and timestamps
 
 #### `has_did(wallet_address)`
-- Verifica si existe un DID para una wallet específica
-- Retorna boolean de existencia
+
+* Checks if a DID exists for a specific wallet
+* Returns a boolean indicating existence
 
 #### `update_biometric_hash(wallet_address, new_hash)`
-- Actualiza el hash biométrico (solo si no está verificado)
-- Previene cambios después de verificación
 
-### Estructura de Datos
+* Updates the biometric hash (only if not yet verified)
+* Prevents changes after verification
+
+### Data Structure
 
 ```rust
 pub struct BiometricDID {
@@ -250,29 +272,33 @@ pub struct BiometricDID {
 }
 ```
 
-## 🔐 Seguridad
+## 🔐 Security
 
-### Consideraciones Implementadas
-- **Hashing Biométrico**: Los datos biométricos se procesan localmente y solo se almacena el hash
-- **Wallet Authentication**: Verificación de propiedad de wallet antes de operaciones
-- **Inmutabilidad**: Una vez verificado, el DID no puede ser modificado
-- **Descentralización**: No hay punto único de falla
+### Implemented Considerations
 
-### Consideraciones para Producción
-- Implementar reconocimiento facial más robusto (face-api.js completo)
-- Agregar múltiples factores biométricos
-- Implementar recuperación de identidad
-- Auditoria de seguridad profesional
+* **Biometric Hashing**: Biometric data is processed locally and only the hash is stored
+* **Wallet Authentication**: Ownership verification before operations
+* **Immutability**: Once verified, the DID cannot be modified
+* **Decentralization**: No single point of failure
+
+### Considerations for Production
+
+* Implement more robust facial recognition (full face-api.js)
+* Add multiple biometric factors
+* Add identity recovery mechanisms
+* Perform professional security audit
 
 ## 🧪 Testing
 
 ### Smart Contract Tests
+
 ```bash
 cd contracts/hello-world
 cargo test
 ```
 
 ### Frontend Tests
+
 ```bash
 # Webapp
 cd webapp
@@ -286,11 +312,13 @@ npm test
 ## 🌐 Deployment
 
 ### Smart Contract
-1. Compilar contrato: `cargo build --release`
-2. Deployar en Stellar Testnet usando Stellar CLI
-3. Actualizar CONTRACT_ID en helpers
+
+1. Compile the contract: `cargo build --release`
+2. Deploy to Stellar Testnet using Stellar CLI
+3. Update CONTRACT\_ID in helpers
 
 ### Frontend
+
 ```bash
 # Webapp
 cd webapp
@@ -303,35 +331,36 @@ npm run build
 npm run preview
 ```
 
-## 🤝 Contribuciones
+## 🤝 Contributions
 
-Las contribuciones son bienvenidas! Por favor:
+Contributions are welcome! Please:
 
-1. Fork el proyecto
-2. Crear una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abrir un Pull Request
+1. Fork the project
+2. Create a new branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📝 Licencia
+## 📝 License
 
-Este proyecto está bajo la licencia MIT. Ver `LICENSE` para más detalles.
+This project is licensed under the MIT License. See `LICENSE` for more details.
 
-## 🙏 Agradecimientos
+## 🙏 Acknowledgments
 
-- **Stellar Development Foundation** por Soroban
-- **Freighter Team** por el wallet
-- **Face-API.js** por las utilidades de reconocimiento facial
-- **React Team** por el framework UI
+* **Stellar Development Foundation** for Soroban
+* **Freighter Team** for the wallet
+* **Face-API.js** for facial recognition utilities
+* **React Team** for the UI framework
 
-## 🔗 Enlaces Útiles
+## 🔗 Useful Links
 
-- [LumID](https://lumid-theta.vercel.app/)
-- [Stellar Documentation](https://stellar.org/developers)
-- [Soroban Documentation](https://soroban.stellar.org/)
-- [Freighter Wallet](https://freighter.app/)
-- [Face-API.js](https://github.com/justadudewhohacks/face-api.js)
+* [LumID](https://lumid-theta.vercel.app/)
+* [Stellar Documentation](https://stellar.org/developers)
+* [Soroban Documentation](https://soroban.stellar.org/)
+* [Freighter Wallet](https://freighter.app/)
+* [Face-API.js](https://github.com/justadudewhohacks/face-api.js)
 
 ---
 
-**⚠️ Aviso**: Este es un prototipo de investigación. No usar en producción sin auditoría de seguridad profesional.
+**⚠️ Disclaimer**: This is a research prototype. Do not use in production without a professional security audit.
+
