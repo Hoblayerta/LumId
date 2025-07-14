@@ -1,0 +1,215 @@
+import { 
+  Contract, 
+  SorobanRpc, 
+  TransactionBuilder, 
+  Networks, 
+  BASE_FEE,
+  Address,
+  xdr,
+  Keypair
+} from '@stellar/stellar-sdk';
+
+// Configuración para testnet
+const server = new SorobanRpc.Server('https://soroban-testnet.stellar.org');
+const networkPassphrase = Networks.TESTNET;
+
+// CONTRACT_ID REAL deployado
+const CONTRACT_ID = 'CBF24N5JQKRQBV2ML4MQL4UU2CARFMOHOQ2PPRMKRRDNSH6PMXKVSE4H';
+
+export interface BiometricDID {
+  wallet_address: string;
+  biometric_hash: string;
+  created_at: number;
+  is_verified: boolean;
+}
+
+export class BiometricContractClient {
+  private contract: Contract;
+
+  constructor() {
+    this.contract = new Contract(CONTRACT_ID);
+  }
+
+  async createDID(
+    walletPublicKey: string,
+    biometricHash: string
+  ): Promise<string> {
+    try {
+      console.log('🚀 Creating DID on Stellar testnet...');
+      console.log('Contract ID:', CONTRACT_ID);
+      console.log('Wallet:', walletPublicKey);
+      console.log('Hash:', biometricHash.substring(0, 20) + '...');
+
+      // Verificar que Freighter esté disponible
+      if (!window.freighter) {
+        throw new Error('Freighter wallet not found');
+      }
+
+      // Construir la transacción
+      const account = await server.getAccount(walletPublicKey);
+      const walletAddress = Address.fromString(walletPublicKey);
+      
+      const transaction = new TransactionBuilder(account, {
+        fee: BASE_FEE,
+        networkPassphrase,
+      })
+        .addOperation(
+          this.contract.call(
+            'create_did',
+            walletAddress,
+            biometricHash
+          )
+        )
+        .setTimeout(30)
+        .build();
+
+      // Simular la transacción primero
+      const simulationResponse = await server.simulateTransaction(transaction);
+      
+      if (SorobanRpc.Api.isSimulationError(simulationResponse)) {
+        throw new Error(`Simulation failed: ${simulationResponse.error}`);
+      }
+
+      // Preparar la transacción
+      const preparedTransaction = SorobanRpc.assembleTransaction(
+        transaction,
+        simulationResponse
+      );
+
+      // Firmar con Freighter
+      const signedXDR = await window.freighter.signTransaction(
+        preparedTransaction.toXDR(),
+        {
+          network: 'TESTNET',
+          accountToSign: walletPublicKey,
+        }
+      );
+
+      const signedTransaction = TransactionBuilder.fromXDR(
+        signedXDR,
+        networkPassphrase
+      );
+
+      // Enviar la transacción
+      const result = await server.sendTransaction(signedTransaction);
+      
+      console.log('✅ Transaction sent:', result);
+
+      // Esperar confirmación
+      let status = await server.getTransaction(result.hash);
+      while (status.status === 'PENDING') {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        status = await server.getTransaction(result.hash);
+      }
+
+      if (status.status === 'SUCCESS') {
+        const didId = `did:stellar:${walletPublicKey}`;
+        console.log('✅ DID created successfully:', didId);
+        return didId;
+      } else {
+        throw new Error(`Transaction failed: ${status.status}`);
+      }
+
+    } catch (error) {
+      console.error('❌ Error creating DID:', error);
+      throw error;
+    }
+  }
+
+  async verifyBiometrics(
+    walletPublicKey: string,
+    biometricHash: string
+  ): Promise<boolean> {
+    try {
+      console.log('🔍 Verifying biometrics on testnet...');
+      
+      const account = await server.getAccount(walletPublicKey);
+      const walletAddress = Address.fromString(walletPublicKey);
+      
+      const transaction = new TransactionBuilder(account, {
+        fee: BASE_FEE,
+        networkPassphrase,
+      })
+        .addOperation(
+          this.contract.call(
+            'verify_biometrics',
+            walletAddress,
+            biometricHash
+          )
+        )
+        .setTimeout(30)
+        .build();
+
+      const simulationResponse = await server.simulateTransaction(transaction);
+      
+      if (SorobanRpc.Api.isSimulationError(simulationResponse)) {
+        console.error('Simulation failed:', simulationResponse.error);
+        return false;
+      }
+
+      // Extraer resultado de la simulación
+      const result = simulationResponse.result?.retval;
+      return result ? true : false;
+      
+    } catch (error) {
+      console.error('❌ Error verifying biometrics:', error);
+      return false;
+    }
+  }
+
+  async hasDID(walletPublicKey: string): Promise<boolean> {
+    try {
+      console.log('🔍 Checking if DID exists...');
+      
+      const walletAddress = Address.fromString(walletPublicKey);
+      
+      // Crear transacción de solo lectura
+      const account = await server.getAccount(walletPublicKey);
+      
+      const transaction = new TransactionBuilder(account, {
+        fee: BASE_FEE,
+        networkPassphrase,
+      })
+        .addOperation(
+          this.contract.call('has_did', walletAddress)
+        )
+        .setTimeout(30)
+        .build();
+
+      const simulationResponse = await server.simulateTransaction(transaction);
+      
+      if (SorobanRpc.Api.isSimulationError(simulationResponse)) {
+        console.error('Simulation failed:', simulationResponse.error);
+        return false;
+      }
+
+      // Extraer resultado
+      const result = simulationResponse.result?.retval;
+      return result ? true : false;
+      
+    } catch (error) {
+      console.error('❌ Error checking DID:', error);
+      return false;
+    }
+  }
+}
+
+// Función helper para verificar si Freighter está disponible
+export const checkFreighterAvailability = (): boolean => {
+  return typeof window !== 'undefined' && !!window.freighter;
+};
+
+// Tipos para TypeScript
+declare global {
+  interface Window {
+    freighter?: {
+      isConnected: () => Promise<boolean>;
+      getPublicKey: () => Promise<string>;
+      requestAccess: () => Promise<string>;
+      signTransaction: (xdr: string, options: {
+        network: string;
+        accountToSign: string;
+      }) => Promise<string>;
+    };
+  }
+}

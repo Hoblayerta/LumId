@@ -1,0 +1,120 @@
+"use client"
+
+import { VideoCapture } from "@scarf/components/VideoCapture";
+import { WalletConnect } from "@scarf/components/WalletConnect";
+import { useState } from "react";
+import useGlobalAuthenticationStore from "@scarf/store/wallet";
+
+export default function Home() {
+  const [biometricHash, setBiometricHash] = useState<string>('');
+  const [didCreated, setDidCreated] = useState<string>('');
+  const [isCreatingDID, setIsCreatingDID] = useState(false);
+  
+  // Obtener wallet address del store
+  const walletAddress = useGlobalAuthenticationStore((state) => state.address);
+
+  const handleBiometricHash = (hash: string) => {
+    setBiometricHash(hash);
+    console.log('Biometric hash generated:', hash);
+  };
+
+  const createDID = async () => {
+    if (!walletAddress || !biometricHash) {
+      alert('Necesitas conectar wallet y generar hash biométrico primero');
+      return;
+    }
+
+    setIsCreatingDID(true);
+    console.log('🚀 Creating DID with:', {
+      wallet: walletAddress,
+      biometricHash: biometricHash.substring(0, 20) + '...'
+    });
+
+    try {
+      // Simular llamada al smart contract
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      const mockDID = `did:stellar:${walletAddress.substring(0, 8)}`;
+      setDidCreated(mockDID);
+      
+      console.log('✅ DID created:', mockDID);
+    } catch (error) {
+      console.error('❌ Error creating DID:', error);
+      alert('Error al crear DID');
+    } finally {
+      setIsCreatingDID(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
+          🔐 Biometric DID System
+        </h1>
+        <p className="text-center text-gray-600 mb-8">
+          Sistema de Identidad Digital con Biométricos en Stellar
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          {/* Wallet Connection */}
+          <WalletConnect />
+          
+          {/* Video Capture */}
+          <VideoCapture onBiometricHash={handleBiometricHash} />
+        </div>
+
+        {/* Status Indicators */}
+        <div className="flex justify-center space-x-4 mb-8">
+          <div className={`px-4 py-2 rounded-full font-semibold ${
+            walletAddress ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-500'
+          }`}>
+            {walletAddress ? '✅ Wallet Conectada' : '⏳ Conectar Wallet'}
+          </div>
+          <div className={`px-4 py-2 rounded-full font-semibold ${
+            biometricHash ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-500'
+          }`}>
+            {biometricHash ? '✅ Biométricos Capturados' : '⏳ Capturar Biométricos'}
+          </div>
+        </div>
+
+        {/* Create DID Section - SOLO APARECE CUANDO TIENES AMBOS */}
+        {walletAddress && biometricHash && (
+          <div className="bg-white p-6 rounded-xl shadow-lg border mb-6">
+            <h3 className="text-xl font-bold mb-4 text-center">✨ Crear DID</h3>
+            
+            <div className="space-y-3 mb-4">
+              <div className="text-sm">
+                <span className="text-gray-600">Wallet:</span>
+                <span className="ml-2 font-mono">{walletAddress.substring(0, 20)}...</span>
+              </div>
+              <div className="text-sm">
+                <span className="text-gray-600">Hash Biométrico:</span>
+                <span className="ml-2 font-mono">{biometricHash.substring(0, 30)}...</span>
+              </div>
+            </div>
+            
+            <button
+              onClick={createDID}
+              disabled={isCreatingDID}
+              className="w-full bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 font-semibold disabled:opacity-50"
+            >
+              {isCreatingDID ? '⏳ Creando DID en Stellar...' : '🆔 Crear DID en Stellar'}
+            </button>
+          </div>
+        )}
+
+        {/* DID Created */}
+        {didCreated && (
+          <div className="bg-green-100 p-6 rounded-xl shadow-lg border">
+            <h3 className="text-xl font-bold mb-2 text-green-800">🎉 DID Creado Exitosamente</h3>
+            <div className="bg-white p-4 rounded-lg">
+              <p className="text-sm text-gray-600 mb-1">Identificador DID:</p>
+              <p className="font-mono text-sm break-all text-green-700">{didCreated}</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
