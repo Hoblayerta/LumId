@@ -355,6 +355,8 @@ This project is licensed under the MIT License. See `LICENSE` for more details.
 ## 🔗 Useful Links
 
 * [LumID](https://lumid-theta.vercel.app/)
+* [Smart Contract Adress](https://stellar.expert/explorer/testnet/contract/CBF24N5JQKRQBV2ML4MQL4UU2CARFMOHOQ2PPRMKRRDNSH6PMXKVSE4H)
+* [Example DID Creation](https://stellar.expert/explorer/testnet/tx/1896945320726528)
 * [Stellar Documentation](https://stellar.org/developers)
 * [Soroban Documentation](https://soroban.stellar.org/)
 * [Freighter Wallet](https://freighter.app/)
