@@ -11,10 +11,10 @@ A **sovereign digital identity** prototype that uses biometrics as an authentica
 - **Wallet Integration**: Connection with Freighter for key management
 - **Dual Frontend**: Next.js and Vite applications for maximum flexibility
 
-## 🔐 Live Demo On Stellar Testnet 
+## 🔐 Live Demo On Stellar Testnet (Need Tesnet XLM to create your DID)
 - [LumID](https://lumid-theta.vercel.app/)
 
-## 🏗️ Arquitectura del Sistema
+## 🏗️ System Architecture
 
 ```mermaid
 graph TB
