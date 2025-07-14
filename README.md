@@ -11,6 +11,9 @@ Un prototipo de **identidad digital soberana** que utiliza biometría como facto
 - **Wallet Integration**: Conexión con Freighter para gestión de claves
 - **Doble Frontend**: Aplicación Next.js y Vite para máxima flexibilidad
 
+## 🔐 Live Demo On Stellar Testnet 
+- [LumID](https://lumid-theta.vercel.app/)
+
 ## 🏗️ Arquitectura del Sistema
 
 ```mermaid
@@ -99,7 +102,7 @@ graph TB
 
 ### 1. Clonar el repositorio
 ```bash
-git clone <repository-url>
+git clone https://github.com/Hoblayerta/LumId.git
 cd biometric-did-app
 ```
 
@@ -323,6 +326,7 @@ Este proyecto está bajo la licencia MIT. Ver `LICENSE` para más detalles.
 
 ## 🔗 Enlaces Útiles
 
+- [LumID](https://lumid-theta.vercel.app/)
 - [Stellar Documentation](https://stellar.org/developers)
 - [Soroban Documentation](https://soroban.stellar.org/)
 - [Freighter Wallet](https://freighter.app/)
